@@ -5,45 +5,56 @@ import UserCard from "@/components/common/UserCard"
 import type { User } from "@/interfaces"
 import type { GetStaticProps, InferGetStaticPropsType } from "next"
 
+// Infer props type from getStaticProps
 type UsersPageProps = InferGetStaticPropsType<typeof getStaticProps>
 
+/**
+ * Fetch users data at build time using getStaticProps.
+ */
 export const getStaticProps: GetStaticProps<{ users: User[] }> = async () => {
   try {
     const res = await fetch("https://jsonplaceholder.typicode.com/users")
+
     if (!res.ok) {
-      throw new Error(`Failed to fetch users, status: ${res.status}`)
+      throw new Error(`Failed to fetch users. Status: ${res.status}`)
     }
+
     const users: User[] = await res.json()
+
     return {
-      props: {
-        users,
-      },
+      props: { users },
       revalidate: 60, // Re-generate the page every 60 seconds
     }
   } catch (error) {
     console.error("Error fetching users in getStaticProps:", error)
+
     return {
-      props: {
-        users: [], // Return empty array on error
-      },
+      props: { users: [] }, // Return empty list if there’s an error
       revalidate: 60,
     }
   }
 }
 
+/**
+ * Users Page Component
+ */
 const UsersPage: React.FC<UsersPageProps> = ({ users }) => {
   return (
     <div className="min-h-screen bg-gray-100">
       <Head>
         <title>Users Page</title>
+        <meta name="description" content="List of users fetched from API at build time." />
       </Head>
 
       <Header />
 
       <main className="container mx-auto px-4 py-8">
         <h1 className="text-4xl font-bold text-gray-800 mb-8">Users</h1>
+
         {users.length === 0 ? (
-          <p className="text-xl text-gray-700">No users found or an error occurred while fetching.</p>
+          <p className="text-xl text-gray-700">
+            No users found or an error occurred while fetching.
+          </p>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {users.map((user) => (
