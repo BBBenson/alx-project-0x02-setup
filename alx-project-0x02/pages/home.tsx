@@ -4,10 +4,10 @@ import type React from "react"
 
 import Head from "next/head"
 import { useState } from "react"
-import Header from "../components/layout/Header"
-import Card from "../components/common/Card"
-import PostModal from "../components/common/PostModal"
-import type { CardProps } from "../interfaces"
+import Header from "@/components/layout/Header"
+import Card from "@/components/common/Card"
+import PostModal from "@/components/common/PostModal"
+import type { CardProps } from "@/interfaces"
 
 const HomePage: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
