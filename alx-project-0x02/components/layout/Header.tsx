@@ -6,7 +6,7 @@ const Header: React.FC = () => {
     <header className="bg-gray-800 text-white p-4 shadow-md">
       <nav className="container mx-auto flex justify-between items-center">
         <Link href="/" className="text-2xl font-bold">
-          Next.js App
+          ALX App
         </Link>
         <ul className="flex space-x-6">
           <li>
