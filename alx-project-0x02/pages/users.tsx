@@ -3,15 +3,11 @@ import Head from "next/head"
 import Header from "@/components/layout/Header"
 import UserCard from "@/components/common/UserCard"
 import type { User } from "@/interfaces"
-import type { GetStaticProps, InferGetStaticPropsType } from "next"
-
-// Infer props type from getStaticProps
-type UsersPageProps = InferGetStaticPropsType<typeof getStaticProps>
 
 /**
- * Fetch users data at build time using getStaticProps.
+ * Fetch users data at build time using getStaticProps().
  */
-export const getStaticProps: GetStaticProps<{ users: User[] }> = async () => {
+export async function getStaticProps() {
   try {
     const res = await fetch("https://jsonplaceholder.typicode.com/users")
 
@@ -33,6 +29,11 @@ export const getStaticProps: GetStaticProps<{ users: User[] }> = async () => {
       revalidate: 60,
     }
   }
+}
+
+// Infer props type from return of getStaticProps
+type UsersPageProps = {
+  users: User[]
 }
 
 /**
